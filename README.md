@@ -26,32 +26,34 @@ It allows users to take quizzes while the system intelligently selects and verif
 * ✅ Database integration (MySQL)
 
 ## 📂 Project Structure
-Antigravity/
-│── api/                     # API handling logic
-│── css/                     # Stylesheets
-│── js/                      # JavaScript files
-│── pages/                   # Additional pages
+Quiz-Application/
+│
+├── 📁 api/                     # API handling logic
+├── 📁 css/                     # Stylesheets
+├── 📁 js/                      # JavaScript files
+├── 📁 pages/                   # Additional pages
+│
+├── 📄 index.html               # Main UI
+├── 📄 debug.html               # Debug UI
+├── 📄 debug_api.html           # API testing
+│
+├── 🗄️ database.sql             # Database schema
+│
+├── 🤖 AI / Python Files
+│   ├── check_models.py
+│   ├── check_specific_model.py
+│   ├── list_models.py
+│   ├── verify_generation.py
+│   └── verify_multiple_models.py
+│
+├── 📊 Model Data
+│   ├── models.json
+│   ├── models.txt
+│   ├── working_model.txt
+│   └── available_models.txt
+│
+└── 🔧 .git/                    # Git configuration
 
-│── index.html               # Main UI
-│── debug.html               # Debug UI
-│── debug_api.html           # API testing
-
-│── database.sql             # Database schema
-
-# AI / Python Files
-│── check_models.py
-│── check_specific_model.py
-│── list_models.py
-│── verify_generation.py
-│── verify_multiple_models.py
-
-# Model Data
-│── models.json
-│── models.txt
-│── working_model.txt
-│── available_models.txt
-
-│── .git/
 
 
 ## 🤖 AI Working Flow
@@ -106,7 +108,7 @@ http://localhost/QuizApplication
 ## 👨‍💻 Author
 
 **Amrut Kiran**
-📧 Email: [your-email@example.com](mailto:your-email@example.com)
+📧 Email: [amrutkiranskshirsagar@gmail.com]
 🔗 GitHub: https://github.com/coder-amrut
 
 If you like this project, give it a ⭐ on GitHub!
