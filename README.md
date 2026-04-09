@@ -92,14 +92,6 @@ Make sure Python is installed:
 python check_models.py
 python verify_generation.py
 ```
-
-### 5️⃣ Open in Browser
-
-```
-http://localhost/QuizApplication
-```
-
----
 ## 💡 Future Improvements
 
 * User login system
