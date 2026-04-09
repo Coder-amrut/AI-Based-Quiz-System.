@@ -26,33 +26,37 @@ It allows users to take quizzes while the system intelligently selects and verif
 * ✅ Database integration (MySQL)
 
 ## 📂 Project Structure
+
+```
 Quiz-Application/
 │
-├── 📁 api/                     # API handling logic
-├── 📁 css/                     # Stylesheets
-├── 📁 js/                      # JavaScript files
-├── 📁 pages/                   # Additional pages
+├── api/                     # API handling logic
+├── css/                     # Stylesheets
+├── js/                      # JavaScript files
+├── pages/                   # Additional pages
 │
-├── 📄 index.html               # Main UI
-├── 📄 debug.html               # Debug UI
-├── 📄 debug_api.html           # API testing
+├── index.html               # Main UI
+├── debug.html               # Debug UI
+├── debug_api.html           # API testing
 │
-├── 🗄️ database.sql             # Database schema
+├── database.sql             # Database schema
 │
-├── 🤖 AI / Python Files
+├── AI / Python Files
 │   ├── check_models.py
 │   ├── check_specific_model.py
 │   ├── list_models.py
 │   ├── verify_generation.py
 │   └── verify_multiple_models.py
 │
-├── 📊 Model Data
+├── Model Data
 │   ├── models.json
 │   ├── models.txt
 │   ├── working_model.txt
 │   └── available_models.txt
 │
-└── 🔧 .git/                    # Git configuration
+└── .git/                    # Git configuration
+```
+            # Git configuration
 
 
 
