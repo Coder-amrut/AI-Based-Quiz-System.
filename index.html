@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Premium Quiz Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container"
+        style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="text-center animate-fade-in">
+            <h1 style="font-size: 4rem; margin-bottom: 1rem;">QuizMaster</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 3rem; max-width: 600px;">
+                The ultimate platform for creating and taking quizzes.
+                Experience a new way of learning with our premium assessment tool.
+            </p>
+
+            <div class="flex gap-8 justify-center" style="flex-wrap: wrap;">
+                <div class="card" style="width: 300px; cursor: pointer; transition: transform 0.3s;"
+                    onclick="window.location.href='pages/auth.html?role=teacher'">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍🏫</div>
+                    <h3>Teacher</h3>
+                    <p class="mt-4">Create quizzes, manage topics, and track student performance.</p>
+                    <button class="btn btn-primary w-full mt-4">Login as Teacher</button>
+                </div>
+
+                <div class="card" style="width: 300px; cursor: pointer; transition: transform 0.3s;"
+                    onclick="window.location.href='pages/auth.html?role=student'">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍🎓</div>
+                    <h3>Student</h3>
+                    <p class="mt-4">Join quizzes, test your knowledge, and view your results.</p>
+                    <button class="btn btn-secondary w-full mt-4">Login as Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple hover effect for cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-10px)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
+        });
+    </script>
+</body>
+
+</html>

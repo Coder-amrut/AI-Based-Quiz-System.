@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - QuizMaster</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container" style="min-height: 100vh; display: flex; justify-content: center; align-items: center;">
+        <div class="card animate-fade-in" style="width: 100%; max-width: 450px;">
+            <div class="text-center mb-4">
+                <h2 id="auth-title">Welcome Back</h2>
+                <p id="auth-subtitle">Please sign in to continue</p>
+            </div>
+
+            <div class="flex justify-center gap-4 mb-4"
+                style="background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 0.5rem;">
+                <button id="btn-signin" class="btn btn-primary w-full" onclick="switchMode('signin')">Sign In</button>
+                <button id="btn-signup" class="btn btn-secondary w-full" onclick="switchMode('signup')">Sign Up</button>
+            </div>
+
+            <form id="auth-form">
+                <div class="input-group" id="name-group" style="display: none;">
+                    <label>Full Name</label>
+                    <input type="text" id="name" placeholder="John Doe">
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="john@example.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full mt-4">Continue</button>
+            </form>
+
+            <p class="text-center mt-4">
+                <a href="../index.html" style="color: var(--text-muted); text-decoration: none;">&larr; Back to Home</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+
+</html>

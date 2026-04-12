@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - QuizMaster</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">QuizMaster <span
+                style="font-size: 0.8rem; color: var(--text-muted);">Teacher</span></a>
+        <div class="flex items-center gap-4">
+            <span id="user-name">Welcome, Teacher</span>
+            <button class="btn btn-secondary" onclick="Auth.logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Navigation Buttons -->
+        <div class="flex gap-4 mb-4">
+            <button class="btn btn-primary" onclick="showSection('quiz-choice')">Create New Quiz</button>
+            <button class="btn btn-secondary" onclick="showSection('my-quizzes')">My Quizzes</button>
+            <button class="btn btn-secondary" onclick="showSection('student-scores')">Student Scores</button>
+        </div>
+
+        <!-- Quiz Choice Section -->
+        <div id="quiz-choice" class="hidden animate-fade-in">
+            <div class="flex gap-4 justify-center mt-8">
+                <div class="card text-center cursor-pointer hover:border-primary transition-all"
+                    style="width: 300px; padding: 2rem;" onclick="startManualQuiz()">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">✍️</div>
+                    <h3>Create Manually</h3>
+                    <p class="mt-4">Build your quiz from scratch, adding questions one by one.</p>
+                </div>
+
+                <!-- Create by AI Option -->
+                <div class="card text-center cursor-pointer hover:border-primary transition-all"
+                    style="width: 300px; padding: 2rem; border-color: var(--primary);"
+                    onclick="openAIGenerationModal()">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+                    <h3>Create by AI</h3>
+                    <p class="mt-4">Auto-generate questions based on subject and difficulty.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Quiz Section -->
+        <div id="create-quiz" class="hidden animate-fade-in">
+            <div class="card">
+                <h2>Create New Quiz</h2>
+                <form id="create-quiz-form" class="mt-4">
+                    <!-- Teacher Name & Quiz Title -->
+                    <div class="flex gap-4">
+                        <div class="input-group w-full">
+                            <label>Teacher Name</label>
+                            <input type="text" id="quiz-teacher" readonly
+                                style="opacity: 0.7; cursor: not-allowed; background: var(--surface); color: var(--text); border: 1px solid var(--border);">
+                        </div>
+                        <div class="input-group w-full">
+                            <label>Quiz Title</label>
+                            <input type="text" id="quiz-title" required placeholder="e.g., Math 101">
+                        </div>
+                    </div>
+
+                    <!-- Topic & Timer -->
+                    <div class="flex gap-4">
+                        <div class="input-group w-full">
+                            <label>Topic Name</label>
+                            <input type="text" id="quiz-topic" required placeholder="e.g., Algebra">
+                        </div>
+                        <div class="input-group w-full">
+                            <label>Time Limit (minutes)</label>
+                            <input type="number" id="quiz-timer" required min="1" value="10">
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-group w-full">
+                        <label>Quiz Password</label>
+                        <input type="text" id="quiz-password" required placeholder="Secret code">
+                    </div>
+
+                    <div id="questions-container">
+                        <!-- Questions will be added here -->
+                    </div>
+
+                    <div class="flex gap-4 mb-4">
+                        <button type="button" class="btn btn-secondary w-full" onclick="addQuestion()">+ Add
+                            Question</button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-full">Publish & Start Quiz</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- My Quizzes Section -->
+        <div id="my-quizzes" class="hidden animate-fade-in">
+            <div class="card">
+                <h2>My Quizzes</h2>
+                <div id="quizzes-list" class="mt-4 flex flex-col gap-4">
+                    <!-- List of quizzes -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Scores Section -->
+        <div id="student-scores" class="hidden animate-fade-in">
+            <div class="card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2>Student Results</h2>
+                    <div class="flex gap-4">
+                        <input type="text" id="search-input" name="search_student_q" autocomplete="off"
+                            placeholder="Search student or quiz..." class="input-field"
+                            style="padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+
+                        <select id="sort-select" class="input-field"
+                            style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text);">
+                            <option value="date">Most Recent</option>
+                            <option value="high_score">Highest Score</option>
+                        </select>
+
+                        <button class="btn btn-secondary" onclick="loadScores()">Refresh</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse" style="min-width: 600px;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--border);">
+                                <th class="p-4">Student Name</th>
+                                <th class="p-4">Quiz Title</th>
+                                <th class="p-4">Score</th>
+                                <th class="p-4">Date Taken</th>
+                                <th class="p-4">Attempts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scores-table-body">
+                            <!-- Rows will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="scores-loading" class="hidden text-center p-4">Loading...</div>
+                <div id="scores-empty" class="hidden text-center p-4 text-muted">No results found.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Confirmation Modal -->
+    <div id="ai-confirm-modal" class="hidden result-overlay">
+        <div class="card" style="max-width: 400px; text-align: center;">
+            <h3>Generate Questions?</h3>
+            <p class="mt-4">Are you sure you want to generate questions using AI? This will use the "Topic" you entered.
+            </p>
+            <div class="flex gap-4 mt-4 justify-center">
+                <button class="btn btn-secondary" onclick="closeAIModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="generateAIQuestions()">Yes, Generate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Generation Modal -->
+    <div id="ai-generation-modal" class="hidden result-overlay">
+        <div class="card" style="max-width: 500px;">
+            <h3>Create Quiz with AI</h3>
+            <p class="text-muted mb-4">Enter details to generate questions automatically.</p>
+
+            <div class="input-group">
+                <label>Subject / Topic</label>
+                <input type="text" id="ai-subject" placeholder="e.g. Photosynthesis, World War II">
+            </div>
+
+            <div class="flex gap-4 mt-4">
+                <div class="input-group w-full">
+                    <label>Number of Questions</label>
+                    <input type="number" id="ai-count" value="5" min="1" max="20">
+                </div>
+                <div class="input-group w-full">
+                    <label>Difficulty</label>
+                    <select id="ai-difficulty">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-6 justify-end">
+                <button class="btn btn-secondary" onclick="closeAIGenerationModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="startAIGeneration()">Generate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Processing Modal -->
+    <div id="ai-processing-modal" class="hidden result-overlay">
+        <div class="card" style="max-width: 400px; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
+            <h3>Processing...</h3>
+            <p class="mt-4">Reading your content and extracting questions...</p>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/teacher.js?v=5"></script>
+</body>
+
+</html>

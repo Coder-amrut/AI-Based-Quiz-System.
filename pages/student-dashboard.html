@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Antigravity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold">
+                        A</div>
+                    <span
+                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Antigravity</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="student-name" class="text-sm font-medium text-gray-600">Student</span>
+                    <button onclick="Auth.logout()"
+                        class="text-sm text-red-600 hover:text-red-700 font-medium transition-colors">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-900">Student Dashboard</h1>
+            <p class="text-gray-500 mt-1">Manage your tests and view your progress.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Live Tests -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            Live Tests
+                        </h2>
+                        <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600"
+                            id="live-count">0 Available</span>
+                    </div>
+
+                    <!-- Live Tests Container -->
+                    <div id="live-tests-container" class="space-y-4">
+                        <!-- Tests will be injected here -->
+                        <div class="animate-pulse flex space-x-4">
+                            <div class="flex-1 space-y-4 py-1">
+                                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-200 rounded"></div>
+                                    <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Results & Stats -->
+            <div class="space-y-6">
+                <!-- Quick Stats -->
+                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+                    <h3 class="text-sm font-medium text-indigo-100 uppercase tracking-wider mb-4">Performance</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-3xl font-bold" id="total-tests-taken">0</div>
+                            <div class="text-xs text-indigo-100 mt-1">Tests Taken</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold" id="average-score">0%</div>
+                            <div class="text-xs text-indigo-100 mt-1">Avg. Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Results -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Results</h2>
+                    <div id="results-container" class="space-y-4">
+                        <!-- Results will be injected here -->
+                        <div class="text-center py-8 text-gray-400 text-sm">Loading results...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/student.js"></script>
+</body>
+
+</html>

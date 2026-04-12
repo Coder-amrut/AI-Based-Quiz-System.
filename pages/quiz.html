@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taking Quiz - QuizMaster</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">QuizMaster</div>
+        <div class="timer-badge">
+            <span id="timer">00:00</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Quiz Title Header -->
+        <div class="text-center mb-6">
+            <h2 id="quiz-title"
+                style="font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                Quiz Title</h2>
+            <p class="text-muted">Test your knowledge</p>
+        </div>
+
+        <!-- Status Dashboard -->
+        <div class="status-dashboard">
+            <div class="status-card">
+                <div class="status-value" style="color: var(--success);" id="stat-solved">0</div>
+                <div class="status-label">Solved</div>
+            </div>
+            <div class="status-card">
+                <div class="status-value" style="color: var(--error);" id="stat-skipped">0</div>
+                <div class="status-label">Skipped</div>
+            </div>
+            <div class="status-card">
+                <div class="status-value" style="color: var(--primary);" id="stat-remaining">0</div>
+                <div class="status-label">Remaining</div>
+            </div>
+        </div>
+
+        <div id="quiz-container" class="animate-fade-in">
+            <!-- Questions will be rendered here -->
+        </div>
+
+        <div id="result-container" class="result-overlay hidden animate-fade-in">
+            <div class="result-card">
+                <h2 class="mb-4">Quiz Completed!</h2>
+
+                <div class="score-ring" id="score-ring">
+                    <div class="score-content">
+                        <div class="score-big" id="score-percentage">0%</div>
+                        <div class="score-label">Score</div>
+                    </div>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-box">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);" id="score-correct">0
+                        </div>
+                        <div class="text-muted" style="font-size: 0.8rem">Correct</div>
+                    </div>
+                    <div class="stat-box">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--text);" id="score-total">0</div>
+                        <div class="text-muted" style="font-size: 0.8rem">Total Questions</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-full" onclick="window.location.href='student-dashboard.html'">Back to
+                    Dashboard</button>
+            </div>
+        </div>
+
+        <div class="quiz-controls">
+            <div class="flex gap-4">
+                <button id="prev-btn" class="btn btn-secondary" onclick="prevQuestion()" disabled>Previous</button>
+                <button id="skip-btn" class="btn btn-skip" onclick="skipQuestion()">Skip Question</button>
+            </div>
+            <button id="next-btn" class="btn btn-primary" onclick="nextQuestion()">Next Question</button>
+            <button id="submit-btn" class="btn btn-success hidden" style="background: var(--success); color: white;"
+                onclick="submitQuiz()">Submit Quiz</button>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/quiz.js"></script>
+</body>
+
+</html>
