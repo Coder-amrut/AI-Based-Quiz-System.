@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Debugger</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 2rem;
+            background: #f0f0f0;
+        }
+
+        .card {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        pre {
+            background: #eee;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>API Debugger</h1>
+
+    <div class="card">
+        <h2>Test 1: Database Connection (api/test_db.php)</h2>
+        <button onclick="testDB()">Run Test</button>
+        <div id="db-result"></div>
+    </div>
+
+    <div class="card">
+        <h2>Test 2: Auth API (api/auth.php)</h2>
+        <button onclick="testAuth()">Run Test</button>
+        <div id="auth-result"></div>
+    </div>
+
+    <script>
+        async function testDB() {
+            const el = document.getElementById('db-result');
+            el.innerHTML = 'Testing...';
+            try {
+                const response = await fetch('api/test_db.php');
+                const text = await response.text();
+                el.innerHTML = `
+                    <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                    <p><strong>Content-Type:</strong> ${response.headers.get('content-type')}</p>
+                    <pre>${text.replace(/</g, '&lt;')}</pre>
+                `;
+            } catch (e) {
+                el.innerHTML = `<p class="error">Fetch Failed: ${e.message}</p>`;
+            }
+        }
+
+        async function testAuth() {
+            const el = document.getElementById('auth-result');
+            el.innerHTML = 'Testing...';
+            try {
+                const response = await fetch('api/auth.php?action=login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'test@test.com', password: 'test', role: 'student' })
+                });
+                const text = await response.text();
+                el.innerHTML = `
+                    <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                    <p><strong>Content-Type:</strong> ${response.headers.get('content-type')}</p>
+                    <pre>${text.replace(/</g, '&lt;')}</pre>
+                `;
+            } catch (e) {
+                el.innerHTML = `<p class="error">Fetch Failed: ${e.message}</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

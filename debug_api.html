@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Key Debugger</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        pre {
+            background: #eee;
+            padding: 10px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>API Key Diagnostic Tool</h1>
+
+    <div class="box">
+        <h3>Step 1: Verify Key & Model</h3>
+        <label>API Key (pre-filled from code):</label>
+        <input type="text" id="api-key" value="AIzaSyDKjDYb6Q-UieIn6Fkb459JL5XKEcBC8xs">
+
+        <label style="margin-top: 10px; display: block;">Model Name:</label>
+        <input type="text" id="model-name" value="gemini-flash-latest">
+
+        <button onclick="testAPI()">Test Connection</button>
+    </div>
+
+    <div class="box">
+        <h3>Results</h3>
+        <div id="status">Waiting to test...</div>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const key = document.getElementById('api-key').value.trim();
+            const model = document.getElementById('model-name').value.trim();
+            const statusFn = document.getElementById('status');
+            const outputFn = document.getElementById('output');
+
+            statusFn.innerHTML = '<span style="color: blue;">Testing...</span>';
+            outputFn.textContent = '';
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+
+            outputFn.textContent += `Request URL: ${url}\n\n`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: "Hello, answer with 'OK' if you can read this." }]
+                        }]
+                    })
+                });
+
+                outputFn.textContent += `HTTP Status: ${response.status} ${response.statusText}\n`;
+
+                const data = await response.json();
+                outputFn.textContent += `Match Body:\n${JSON.stringify(data, null, 2)}`;
+
+                if (response.ok) {
+                    statusFn.innerHTML = '<span class="success">SUCCESS: API Key and Model are working!</span>';
+                } else {
+                    const errorMsg = data.error ? data.error.message : 'Unknown error';
+                    statusFn.innerHTML = `<span class="error">FAILED: ${errorMsg}</span>`;
+                }
+
+            } catch (e) {
+                statusFn.innerHTML = `<span class="error">NETWORK/CODE ERROR: ${e.message}</span>`;
+                outputFn.textContent += `\nException: ${e.stack}`;
+            }
+        }
+    </script>
+</body>
+
+</html>
